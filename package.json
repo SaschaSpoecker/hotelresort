@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "dev": "tailwindcss -i ./resort/static/css/input.css -o ./resort/static/css/output.css --watch",
+    "build": "tailwindcss -i ./resort/static/css/input.css -o ./resort/static/css/output.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.1.12",
+    "tailwindcss": "^4.1.12"
+  }
+}

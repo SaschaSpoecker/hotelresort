@@ -22,6 +22,7 @@
         {% endif %}
 
         {# Global stylesheets #}
+        <link rel="stylesheet" href="{% static 'css/output.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/resort.css' %}">
 
         {% block extra_css %}
@@ -31,6 +32,9 @@
 
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
+
+        {# Navbar partial #}
+        {% include "partials/navbar.html" %}
 
         {% block content %}{% endblock %}
 
@@ -42,3 +46,4 @@
         {% endblock %}
     </body>
 </html>
+

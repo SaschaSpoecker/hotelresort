@@ -1,0 +1,14 @@
+@import "tailwindcss";
+/* Tell Tailwind where to scan for class names */
+@source "../../templates/**/*.html";
+@source "../../../home/templates/**/*.html";
+
+/* hier kannst du dein eigenes Theme ergänzen */
+@theme {
+  --color-brand: #e9ce7e;  /* Beispiel: ein Gold für Buttons */
+}
+
+/* optional: Custom Styles */
+body {
+  @apply bg-gray-50 text-gray-900;
+}
