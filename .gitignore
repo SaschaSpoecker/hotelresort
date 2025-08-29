@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+.Python
+
+# Environments
+.env
+.venv/
+venv/
+ENV/
+env.bak/
+*.swp
+
+# Django & Wagtail
+db.sqlite3
+/static/
+/media/
+
+# Logs
+*.log
+*.pot
+*.pyc
+*.mo
+
+# Coverage / Testing
+.coverage
+coverage/
+.tox/
+pytest_cache/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.iml
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+*.pid
+docker-compose.override.yml
+*.tar
+*.bak
+
+# Node / Tailwind (falls du Tailwind-Assets baust)
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+dist/
+build/
