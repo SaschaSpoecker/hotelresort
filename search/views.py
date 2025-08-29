@@ -1,26 +1,24 @@
+# search/views.py
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.template.response import TemplateResponse
 
 from wagtail.models import Page
-from wagtail.search.models import Query
 
 
 def search(request):
-    search_query = request.GET.get("query", None)
+    search_query = request.GET.get("query", "").strip()
     page = request.GET.get("page", 1)
 
-    # Search
     if search_query:
-        search_results = Page.objects.live().search(search_query)
-        query = Query.get(search_query)
-
-        # Record hit
-        query.add_hit()
+        search_qs = (
+            Page.objects.live()
+            .public()
+            .search(search_query)
+        )
     else:
-        search_results = Page.objects.none()
+        search_qs = Page.objects.none()
 
-    # Pagination
-    paginator = Paginator(search_results, 10)
+    paginator = Paginator(search_qs, 10)
     try:
         search_results = paginator.page(page)
     except PageNotAnInteger:
