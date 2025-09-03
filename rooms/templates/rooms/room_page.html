@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body_class %}template-room-page{% endblock %}
+
+{% block content %}
+<main>
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    
+    <!-- Header Section -->
+    <div class="mb-8">
+      <nav class="mb-4">
+        <a href="/rooms/" class="text-brand hover:underline">← Zurück zu den Zimmern</a>
+      </nav>
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">{{ page.title }}</h1>
+      <p class="text-xl text-gray-600">{{ page.room_type }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Main Content -->
+      <div class="lg:col-span-2">
+        
+        <!-- Main Image -->
+        {% if page.main_image %}
+          <div class="mb-8">
+            <img src="{{ page.main_image.file.url }}" alt="{{ page.title }}" class="w-full h-96 object-cover rounded-lg shadow-md">
+          </div>
+        {% endif %}
+
+        <!-- Description -->
+        <div class="prose max-w-none mb-8">
+          {{ page.description|richtext }}
+        </div>
+
+        <!-- Amenities -->
+        {% if page.amenities %}
+          <div class="mb-8">
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Ausstattung</h3>
+            <div class="grid grid-cols-2 gap-2">
+              {% for amenity in page.amenities %}
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 text-brand mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                  <span class="text-gray-700">{{ amenity.value }}</span>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Gallery -->
+        {% if page.gallery %}
+          <div class="mb-8">
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Galerie</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {% for image in page.gallery %}
+                <img src="{{ image.value.file.url }}" alt="Zimmer Galerie" class="w-full h-32 object-cover rounded-md shadow-sm">
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Booking Sidebar -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-lg shadow-md p-6 sticky top-24">
+          
+          <!-- Room Details -->
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Zimmerdetails</h3>
+            <div class="space-y-2 text-sm text-gray-600">
+              <div class="flex justify-between">
+                <span>Größe:</span>
+                <span class="font-medium">{{ page.size_sqm }} m²</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Personen:</span>
+                <span class="font-medium">bis {{ page.max_guests }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Price -->
+          <div class="border-t pt-4 mb-6">
+            <div class="text-3xl font-bold text-brand">
+              €{{ page.price_per_night }}
+              <span class="text-sm font-normal text-gray-600">/Nacht</span>
+            </div>
+          </div>
+
+          <!-- Booking Button -->
+          <a href="/buchen/" class="w-full inline-flex items-center justify-center px-6 py-3 bg-brand text-black font-medium rounded-md hover:brightness-90 transition">
+            Jetzt buchen
+          </a>
+
+          <p class="text-xs text-gray-500 text-center mt-2">
+            Kostenlose Stornierung bis 24h vor Anreise
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock content %}

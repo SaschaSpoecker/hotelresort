@@ -26,6 +26,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 INSTALLED_APPS = [
     "home",
     "search",
+    "rooms",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.embeds",
@@ -39,12 +40,15 @@ INSTALLED_APPS = [
     "wagtail",
     "modelcluster",
     "taggit",
-    "django.contrib.admin",
+    "django.contrib.admin", 
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    # Apps
+ 
 ]
 
 MIDDLEWARE = [
@@ -91,6 +95,8 @@ DATABASES = {
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
+
+
 
 
 # Password validation

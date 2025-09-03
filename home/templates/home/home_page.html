@@ -1,15 +1,124 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static wagtailcore_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
 
-{% block extra_css %}{% endblock extra_css %}
-
 {% block content %}
   <main>
-    <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-      <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Willkommen im HotelResort</h1>
-      <p class="text-gray-600 max-w-2xl">Dies ist eine einfache Startseite. Passe Inhalte später über Wagtail an oder erweitere die Seitenstruktur.</p>
+    <!-- Hero Section -->
+    <div class="bg-gray-900 {% if page.hero_image %}bg-cover bg-center{% endif %}"
+         {% if page.hero_image %}style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ page.hero_image.file.url }}')"{% endif %}>
+      <div class="relative isolate px-6 pt-14 lg:px-8">
+        <div class="mx-auto max-w-7xl py-32 sm:py-48 lg:py-56">
+          <div class="text-center">
+            <h1 class="text-5xl font-semibold tracking-tight text-balance text-white sm:text-7xl">
+              {% if page.hero_title %}{{ page.hero_title }}{% else %}Willkommen im HotelResort{% endif %}
+            </h1>
+            {% if page.hero_subtitle %}
+              <p class="mt-8 text-lg font-medium text-pretty text-gray-300 sm:text-xl/8">{{ page.hero_subtitle }}</p>
+            {% endif %}
+            <div class="mt-10 flex items-center justify-center gap-x-6">
+              <a href="/rooms/" class="rounded-md bg-brand px-3.5 py-2.5 text-sm font-semibold text-black shadow-xs hover:brightness-90 transition">
+                Zimmer ansehen
+              </a>
+              <a href="/buchen/" class="text-sm/6 font-semibold text-white border-2 border-white rounded-md px-3.5 py-2.5 hover:bg-white hover:text-gray-900 transition">
+                Jetzt buchen <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Special Offers Section -->
+    {% if page.offer_title %}
+      <section class="py-16 bg-gray-50">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-2">
+              <!-- Image Left -->
+              {% if page.offer_background_image %}
+                <div class="h-64 lg:h-auto">
+                  <img src="{{ page.offer_background_image.file.url }}" alt="{{ page.offer_title }}" class="w-full h-full object-cover">
+                </div>
+              {% endif %}
+              
+              <!-- Content Right -->
+              <div class="p-8 lg:p-12 flex flex-col justify-center">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">{{ page.offer_title }}</h2>
+                {% if page.offer_description %}
+                  <div class="prose prose-lg text-gray-700 mb-6">
+                    {{ page.offer_description|richtext }}
+                  </div>
+                {% endif %}
+                
+                <div class="flex flex-col sm:flex-row gap-4 items-start">
+                  {% if page.offer_cta_text and page.offer_cta_url %}
+                    <a href="{{ page.offer_cta_url }}" class="inline-flex items-center justify-center px-6 py-3 bg-brand text-black font-semibold rounded-md hover:brightness-90 transition">
+                      {{ page.offer_cta_text }}
+                    </a>
+                  {% endif %}
+                  
+                  {% if page.offer_valid_until %}
+                    <div class="text-sm text-gray-600 bg-gray-100 px-4 py-2 rounded-full">
+                      <i class="fas fa-clock mr-2 text-brand"></i>
+                      Gültig bis {{ page.offer_valid_until|date:"d.m.Y" }}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    {% endif %}
+
+    <!-- Intro Section -->
+    {% if page.intro_text %}
+      <section class="py-16 bg-white">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+          <div class="prose prose-lg mx-auto max-w-4xl">
+            {{ page.intro_text|richtext }}
+          </div>
+        </div>
+      </section>
+    {% endif %}
+
+    <!-- Features Section -->
+    {% if page.features %}
+      <section class="py-16 bg-gray-50">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Unsere Leistungen</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for feature in page.features %}
+              <div class="text-center bg-white p-8 rounded-lg shadow-sm hover:shadow-md transition">
+                {% if feature.value.icon %}
+                  <div class="text-4xl text-brand mb-4">
+                    <i class="fas fa-{{ feature.value.icon }}"></i>
+                  </div>
+                {% endif %}
+                <h3 class="text-xl font-semibold text-gray-900 mb-4">{{ feature.value.title }}</h3>
+                <p class="text-gray-600">{{ feature.value.description }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
+    {% endif %}
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-brand">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-bold text-black mb-4">Bereit für Ihren perfekten Aufenthalt?</h2>
+        <p class="text-lg text-gray-800 mb-8">Buchen Sie noch heute und erleben Sie unvergessliche Momente in unserem Resort.</p>
+        <a href="/buchen/" class="inline-flex items-center justify-center px-8 py-3 bg-black text-white font-medium rounded-md hover:bg-gray-800 transition text-lg">
+          Verfügbarkeit prüfen
+        </a>
+      </div>
     </section>
   </main>
 {% endblock content %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
